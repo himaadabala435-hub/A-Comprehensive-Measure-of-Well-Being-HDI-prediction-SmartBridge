@@ -257,7 +257,3 @@ The application predicts:
 * Human Development Index (HDI) Score
 
 The predicted value is displayed instantly on the webpage after clicking the **Predict HDI** button.
-
----
-
-This follows the same **headings, order, and professional format** as the SmartLender project, but is fully customized for your **HDI Prediction** project.
