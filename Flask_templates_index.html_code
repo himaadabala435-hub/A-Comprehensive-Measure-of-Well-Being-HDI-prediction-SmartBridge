@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Human Development Index Prediction</title>
+    <style>
+        body { font-family: Arial, sans-serif; background-color: #f4f4f4; text-align: center; padding: 50px; }
+        .container { background: white; padding: 30px; border-radius: 8px; display: inline-block; box-shadow: 0px 0px 10px rgba(0,0,0,0.1); }
+        input { width: 90%; padding: 10px; margin: 10px 0; border: 1px solid #ccc; border-radius: 4px; }
+        .btn { background-color: green; color: white; border: none; padding: 12px 20px; cursor: pointer; font-size: 16px; border-radius: 4px; width: 95%; }
+        .btn:hover { background-color: darkgreen; }
+        .result { margin-top: 25px; color: blue; font-size: 20px; font-weight: bold; }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h2 style="color: blue;">Human Development Index Prediction</h2>
+        
+        <form action="/predict" method="POST">
+            <input type="number" step="any" name="life" placeholder="Life Expectancy (e.g., 72)" required>
+            <input type="number" step="any" name="school" placeholder="Expected Schooling (e.g., 12)" required>
+            <input type="number" step="any" name="income" placeholder="GNI Income (e.g., 15000)" required>
+            <button type="submit" class="btn">Predict</button>
+        </form>
+
+        {% if prediction_text %}
+            <div class="result">
+                {{ prediction_text }}
+            </div>
+        {% endif %}
+    </div>
+
+</body>
+</html>
