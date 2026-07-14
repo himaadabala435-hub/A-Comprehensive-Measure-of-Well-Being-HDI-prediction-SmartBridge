@@ -78,7 +78,7 @@ Provides:
 ---
  Hima Adabala - Team Leader - himaadabala435@gmail.com
 ---
- Kopparthi Mahesh Pani - Tea Member - kopparthimahesh3458@gmail.com
+ Kopparthi Mahesh Pani - Team Member - kopparthimahesh3458@gmail.com
 ---
  Nageswari Koppisetti - Team Member - koppisettinageswari803@gmail.com
 ---
