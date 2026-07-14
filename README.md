@@ -1,0 +1,2 @@
+# A-Comprehensive-Measure-of-Well-Being-HDI-prediction-SmartBridge
+Human Development Index Prediction is a Machine Learning-based web application that predicts the HDI score using Life Expectancy, Expected Years of Schooling, and Gross National Income (GNI). Built with Python, Linear Regression, Flask, HTML, and CSS, it provides fast, accurate, and user-friendly predictions through an interactive web interface.
