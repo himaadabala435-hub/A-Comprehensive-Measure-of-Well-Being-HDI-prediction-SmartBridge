@@ -1,0 +1,66 @@
+# Cell 1: Import Libraries
+import pandas as pd
+import numpy as np
+from sklearn.model_selection import train_test_split
+from sklearn.linear_model import LinearRegression
+import pickle
+---
+# Cell 2: Load and Prepare Data (Fixed Target Selector)
+import pandas as pd
+
+# 1. Load the dataset
+df = pd.read_csv('../Dataset/HDI.csv')
+
+# 2. Clean up column names (remove spaces and make lowercase for easy matching)
+df.columns = df.columns.str.strip()
+col_mapping = {col.lower(): col for col in df.columns}
+
+# 3. Find feature columns by keywords
+life_col = next((orig for low, orig in col_mapping.items() if 'life' in low or 'le' in low), None)
+school_col = next((orig for low, orig in col_mapping.items() if 'school' in low or 'educ' in low or 'eys' in low), None)
+income_col = next((orig for low, orig in col_mapping.items() if 'income' in low or 'gni' in low or 'pci' in low), None)
+
+# 4. Find the numeric HDI target column (EXCLUDING columns that say 'group' or 'class')
+# Force the target to be the explicit value column instead of Rank
+hdi_col = next((orig for low, orig in col_mapping.items() if 'value' in low or 'index' in low and 'rank' not in low), None)
+if not hdi_col or 'rank' in hdi_col.lower():
+    # If dynamic search fails, find the exact column containing 'Human Development Index (value)'
+    hdi_col = [c for c in df.columns if 'value' in c.lower() or 'index' in c.lower()][0]
+    
+# If it still can't find it dynamically, let's look at common default positions
+life_col = life_col if life_col else df.columns[4]
+school_col = school_col if school_col else df.columns[6]
+income_col = income_col if income_col else df.columns[8]
+hdi_col = hdi_col if hdi_col else df.columns[2]
+
+print(f"Using columns:\n- Life: {life_col}\n- Schooling: {school_col}\n- Income: {income_col}\n- Target (HDI Score): {hdi_col}")
+
+# 5. Assign to X and y
+X = df[[life_col, school_col, income_col]]
+y = df[hdi_col]
+
+# 6. Drop any rows where the target column itself is missing/empty
+valid_idx = y.notna()
+X = X[valid_idx]
+y = y[valid_idx]
+
+# 7. Fill missing feature values with their mathematical average
+X = X.fillna(X.mean())
+---
+# Split the dataset into 80% training data and 20% testing data
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
+
+# Initialize and train the Linear Regression model
+model = LinearRegression()
+model.fit(X_train, y_train)
+
+# Print accuracy verification
+train_score = model.score(X_train, y_train)
+print(f"Model trained successfully! R^2 Training Score: {train_score:.4f}")
+---
+# Save the model directly into your Flask directory
+with open('../Flask/HDI.pkl', 'wb') as file:
+    pickle.dump(model, file)
+
+print("HDI.pkl has been created and saved successfully into your Flask folder!")
+---
